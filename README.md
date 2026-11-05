@@ -6,11 +6,15 @@ Deep tech research intern at ARIA Ventures.
 
 ## What I'm building
 
-NFL Big Data Bowl 2027 (Kaggle, University Track): a tested Python pipeline for 10 Hz player tracking data, currently calculating smoothed deceleration and speed-retention metrics.
+NFL Big Data Bowl 2027 (Kaggle, University Track): a Python pipeline for 10 Hz player tracking data, in progress.
+Janus: a Polymarket trading bot, built in phases, in progress.
+Zeron: quantitative analytics for Egyptian markets, in progress, starting on synthetic data.
+Eigenlog: a Python, SQL and Bash tool for logging reflections and mapping concepts, in progress.
+Bermuth Vector: early-stage design work on verifying AI agents, in progress.
 
 ## What I use
 
-Python, Pandas, pytest, Streamlit, Git, Linux.
+Python, Pandas, Streamlit, Git, Linux.
 Financial modelling and market research.
 English, French and Arabic. German and Spanish at intermediate level.
 
