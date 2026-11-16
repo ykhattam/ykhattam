@@ -1,0 +1,62 @@
+{
+  "owner": "ykhattam",
+  "projects": [
+    {
+      "key": "janus-engine",
+      "repo": "janus-engine",
+      "name": "Janus Engine",
+      "what": "Prediction-market measurement study: whether an LLM has a tradeable edge over market prices after fees",
+      "state": "**Complete** — measured, then stopped before going live"
+    },
+    {
+      "key": "nfl-bdb-2027",
+      "repo": "nfl-bdb-2027",
+      "name": "NFL Big Data Bowl 2027",
+      "what": "Analytics pipeline for 10 Hz player-tracking data (Kaggle, University Track)",
+      "state": "In progress — competition deadline 6 Jan 2027"
+    },
+    {
+      "key": "zeron-core",
+      "repo": "zeron-core",
+      "name": "Zeron Core",
+      "what": "B2B portfolio optimisation and scenario stress-testing middleware for Egyptian and frontier markets",
+      "state": "In development"
+    },
+    {
+      "key": "ple-agent-harness",
+      "repo": "ple-agent-harness",
+      "name": "PLE Agent Harness",
+      "what": "Agent harness for a long-horizon engineering benchmark (Google)",
+      "state": "In progress — competition closes 5 Jan 2027"
+    },
+    {
+      "key": "qat-lab",
+      "repo": "qat-lab",
+      "owner": "qatqat4x4",
+      "name": "Qat Lab",
+      "what": "On-premises invoice extraction for Egyptian e-invoicing",
+      "state": "**Alpha pilot open**"
+    },
+    {
+      "key": "bermuth-vector",
+      "repo": "bermuth-vector",
+      "name": "Bermuth Vector",
+      "what": "Guardrail observability and attestation for autonomous AI agents",
+      "state": "Phase 1 in progress"
+    },
+    {
+      "key": "eigenlog",
+      "repo": "eigenlog",
+      "name": "Eigenlog",
+      "what": "Local-first epistemic logging tool (Python, SQL, Bash)",
+      "state": "v1 complete"
+    },
+    {
+      "key": "oubliette-cli",
+      "repo": "oubliette-cli",
+      "name": "Oubliette CLI",
+      "what": "Audit-grade local AI coding assistant with hard secret boundaries",
+      "state": "v1 complete"
+    }
+  ]
+}

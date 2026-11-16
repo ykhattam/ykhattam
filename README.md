@@ -14,13 +14,22 @@ documentation, its own access rules, and its own release state.
 
 ## Projects
 
-| Project | What it is | State |
-|---|---|---|
-| **Janus Engine** | A prediction-market measurement study: whether an LLM has a tradeable edge over market prices after fees | **Complete** — measured, then stopped before going live |
-| **NFL Big Data Bowl 2027** | Analytics pipeline for 10 Hz player-tracking data (Kaggle, University Track) | In progress — competition deadline 6 Jan 2027 |
-| **Zeron Core** | B2B portfolio optimisation and scenario stress-testing middleware for Egyptian and frontier markets | v6.4.0 |
-| **PLE Agent Harness** | Agent harness for a long-horizon engineering benchmark (Google) | In progress — competition closes 5 Jan 2027 |
-| **Qat Lab** | On-premises invoice extraction for Egyptian e-invoicing | **Alpha pilot open** — [qatlab.xyz](https://www.qatlab.xyz) |
+<!-- STATUS:BEGIN -->
+| Project | What it is | State | Last commit | Access |
+|---|---|---|---|---|
+| **Janus Engine** | Prediction-market measurement study: whether an LLM has a tradeable edge over market prices after fees | **Complete** — measured, then stopped before going live | 16 Nov 2026 | private |
+| **NFL Big Data Bowl 2027** | Analytics pipeline for 10 Hz player-tracking data (Kaggle, University Track) | In progress — competition deadline 6 Jan 2027 | 16 Nov 2026 | private |
+| **Zeron Core** | B2B portfolio optimisation and scenario stress-testing middleware for Egyptian and frontier markets | In development | 11 Nov 2026 | private |
+| **PLE Agent Harness** | Agent harness for a long-horizon engineering benchmark (Google) | In progress — competition closes 5 Jan 2027 | 16 Nov 2026 | private |
+| **Qat Lab** | On-premises invoice extraction for Egyptian e-invoicing | **Alpha pilot open** | 16 Nov 2026 | private |
+| **Bermuth Vector** | Guardrail observability and attestation for autonomous AI agents | Phase 1 in progress | 11 Nov 2026 | private |
+| **Eigenlog** | Local-first epistemic logging tool (Python, SQL, Bash) | v1 complete | 10 Nov 2026 | public |
+| **Oubliette CLI** | Audit-grade local AI coding assistant with hard secret boundaries | v1 complete | 07 Nov 2026 | public |
+<!-- STATUS:END -->
+
+The table above is regenerated from live repository state by
+`scripts/update_status.py`, so it cannot drift from what the projects actually
+are. The narrative below it is written by hand.
 
 **Janus Engine.** A prediction-market bot built to answer one question honestly:
 does a model disagreeing with the market price by enough to cover fees actually
