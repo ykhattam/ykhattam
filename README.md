@@ -20,6 +20,7 @@ documentation, its own access rules, and its own release state.
 | **NFL Big Data Bowl 2027** | Analytics pipeline for 10 Hz player-tracking data (Kaggle, University Track) | In progress — competition deadline 6 Jan 2027 |
 | **Zeron Core** | B2B portfolio optimisation and scenario stress-testing middleware for Egyptian and frontier markets | v6.4.0 |
 | **PLE Agent Harness** | Agent harness for a long-horizon engineering benchmark (Google) | In progress — competition closes 5 Jan 2027 |
+| **Qat Lab** | On-premises invoice extraction for Egyptian e-invoicing | **Alpha pilot open** — [qatlab.xyz](https://www.qatlab.xyz) |
 
 **Janus Engine.** A prediction-market bot built to answer one question honestly:
 does a model disagreeing with the market price by enough to cover fees actually
@@ -46,10 +47,17 @@ Exam, a benchmark of long-horizon structural, civil, electrical and mechanical
 engineering tasks with a 6-hour agent time limit and no internet access beyond
 model calls. In progress for the Kaggle competition; **no result claimed.**
 
+**Qat Lab.** On-premises invoice extraction for Egyptian e-invoicing (Law 151). Documents are
+parsed in volatile memory inside the client's own network perimeter, verified by deterministic
+decimal arithmetic, and exported as fixed-point ledgers. Alpha pilot open.
+
 ### Also on GitHub — not part of the finance lane
 
-- **Bermuth Vector** — a guardrail observability and attestation platform for
-  autonomous AI agents, in Rust. Phase 1 in progress.
+- **Bermuth Vector** — An AI assurance platform in Rust: observe, attest, and underwrite the
+  guardrails that autonomous agents run inside. The thesis is that liability should attach to the
+  client's *deterministic guardrail architecture* — attested with a Merkle chain, so "the
+  guardrails were live and unaltered" is independently verifiable — rather than to the
+  non-stationary output of an LLM. The client keeps the halt switch.
 - **Eigenlog** *(public)* — a local-first epistemic logging tool in Python, SQL
   and Bash, with Pydantic-validated storage, owner-only permissions, and a
   local LLM critic.
