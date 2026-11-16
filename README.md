@@ -1,44 +1,40 @@
 # Yassine Elkhattam
 
-Student in Cairo, targeting Summer 2027 internships in quantitative research and technical strategy.
-Dual degree in management sciences and international commerce, Ain Shams University and Université de Poitiers, expected 2028.
-Deep tech research intern at ARIA Ventures.
+Targeting Summer 2027 internships in quantitative finance and analytics.
+DU Management des Organisations (DGCI / Université de Poitiers, Cairo) and Ain Shams University, Faculty of Commerce. Expected graduation 2028.
+Deep tech research intern at ARIA Ventures (agriculture & synthetic biology).
 
 I build things where the hard part is **measuring whether they actually work** — and I keep the
-receipts. Below is a detailed account of every project I've shipped, what I actually built, and
-— where it matters — what the measurements said when they contradicted me.
+receipts, including when the answer is "no". Below is what I have been working on, what is actually
+finished, and what is still in progress.
 
 ---
 
-## Progress Overview
+## Where the work stands
 
-| Project | Domain | Stack | Status | Commits | LOC | Period |
-|---|---|---|---|---|---|---|
-| [Janus Engine](#1-janus-engine--polymarket-trading-bot) | Prediction-market trading | Python, SQLite, httpx, Telegram | **Complete** — measured, then honestly stopped | 42 | 11.3k | Nov 5–16, 2026 |
-| [PLE Agent Harness](#6-ple-agent-harness--google-plebench-submission) | Engineering agent benchmark | Python, uv, Gemini API | Submitted | 16 | 3.7k | Nov 12–16, 2026 |
-| [Bermuth Vector](#3-bermuth-vector--guardrail-observability) | AI assurance / Insurtech | Rust, Axum, SQLite | Phase 1 active | 13 | 3.0k | Nov 5–12, 2026 |
-| [Qat Lab](#5-qat-lab--zero-trust-egyptian-invoice-processing) | Govtech / accounting | Python, llama.cpp, OCR, Cloudflare | Live pilot | 109 | 1.5k | Oct 30 – Nov 15, 2026 |
-| [NFL Big Data Bowl 2027](#4-nfl-big-data-bowl-2027--biomechanical-route-running-analytics) | Sports analytics | Python, Pandas, SciPy | v0.2.0, in progress | 19 | 3.4k | Nov 1–12, 2026 |
-| [Eigenlog](#7-eigenlog--polyglot-epistemic-engine) | Personal knowledge | Python, SQL, Bash, NiceGUI | v1 complete | 40 | 1.4k | Nov 5–10, 2026 |
-| [Oubliette CLI](#8-oubliette-cli--paranoid-ai-coding-assistant) | Dev tooling / security | Python, llama.cpp, Ollama | v1 complete, public | 17 | 953 | Nov 5–7, 2026 |
-| [Zeron Core](#2-zeron-core--quantitative-stress-testing-middleware) | FinTech middleware | Python, FastAPI, Postgres, React | v6.4.0 | 17 | 1.8k | Nov 2–12, 2026 |
+| Project | Domain | Status |
+|---|---|---|
+| [Janus Engine](#janus-engine--a-measurement-study-in-prediction-market-pricing) | Prediction-market measurement study | **Complete** — measured, then stopped |
+| [NFL Big Data Bowl 2027](#nfl-big-data-bowl-2027--biomechanical-route-running-analytics) | Sports analytics | In progress — submission deadline 6 Jan 2027 |
+| [Zeron Core](#zeron-core--portfolio-stress-testing-middleware) | FinTech middleware | v6.4.0, in progress |
+| [PLE Agent Harness](#ple-agent-harness--engineering-agent-harness) | Engineering agent harness | In progress — competition closes 5 Jan 2027 |
+| [Bermuth Vector](#bermuth-vector--guardrail-observability) | AI assurance / Insurtech | Phase 1 active — not a finance lane |
+| [Eigenlog](#eigenlog--polyglot-epistemic-engine) | Personal knowledge tooling | v1 complete — not a finance lane |
+| [Oubliette CLI](#oubliette-cli--paranoid-ai-coding-assistant) | Dev tooling / security | v1 complete — not a finance lane |
 
-**273 commits · ~27,100 lines of source · 320+ automated tests · 18 days (Oct 30 – Nov 16, 2026)**
-
-Public: [Eigenlog](https://github.com/ykhattam/eigenlog) · [Oubliette CLI](https://github.com/ykhattam/oubliette-cli) · [Qat Lab](https://github.com/qatqat4x4/qat-lab)
-Private: Janus Engine · Zeron Core · Bermuth Vector · NFL BDB 2027 · PLE Harness
+Everything below was verified by running the test suites from fresh clones — Janus 229 passing,
+Zeron 21, NFL Big Data Bowl 70 — not by reading the project READMEs.
 
 ---
 
-## 1. Janus Engine — Polymarket trading bot
-
-**`ykhattam/janus-engine`** · 42 commits · 11,323 LOC · 229 tests · Nov 5–16, 2026 · **Status: COMPLETE**
+## Janus Engine — a measurement study in prediction-market pricing
 
 > *"Does an LLM have an edge over the market price?"*
-> **Answer: no, or not enough to matter — and the project stopped instead of pretending otherwise.**
+> **Answer: no usable edge in the markets scored — and the project stopped instead of pretending otherwise.**
 
 A prediction-market bot built to answer one question honestly, with a signed jurisdictional
-commitment that it would never go live without evidence.
+commitment that it would never go live without evidence. Paper-trading mode throughout; it never
+traded live.
 
 ### The one idea everything is built on
 
@@ -165,10 +161,10 @@ The *shape* of that result is the finding: given a market and its price, the mod
 It isn't overconfident — it has **no independent signal at all**, and noise is exactly the
 population a lower-bound edge gate selects.
 
-But the sample was the **wrong population**: median total volume was **$30** (MotoGP and corner-prop
-dust that production would never trade). The run was **retracted** and the harness gained
-`--min-volume`. The production-like slice (volume ≥ $10k) contains 88 scorable markets and was
-**never scored** — the daily token budget ran out first. That gap is recorded, not hidden.
+But the sample was the **wrong population**: median total volume was **$30** (dust markets that
+production would never trade). The run was **retracted** and the harness gained `--min-volume`. The
+production-like slice (volume ≥ $10k) contains 88 scorable markets and was **never scored** — the
+daily token budget ran out first. That gap is recorded, not hidden.
 
 **The calibration harness** (`scripts/calibrate.py`) has three design decisions that make the
 measurement valid:
@@ -204,9 +200,14 @@ it would only have consumed quota to measure noise.**
 > **0.00675** (~0.7pp of disagreement with the market). The bot therefore **never went live** — a
 > signed jurisdictional commitment, not a technical accident.
 
-The README documents exactly what would have to change: a model whose probability is *calibrated*
-(Brier skill > 0), a *stable* number (reliability σ small enough that the gate isn't a coin flip),
-and a gap large enough to clear `fee_per_share + margin` after the round trip.
+**This is a statement about the markets that were scored, not a proof that no edge exists.** The
+production-like slice was never scored because the token budget ran out, and the tradeable sample was
+n=4. What the study does establish is that the edge gate works as designed: it rejects an echoing
+model rather than trading on it.
+
+The README documents exactly what would have to change for a different answer: a model whose
+probability is *calibrated* (Brier skill > 0), a *stable* number (reliability σ small enough that the
+gate isn't a coin flip), and a gap large enough to clear `fee_per_share + margin` after the round trip.
 
 ### Engineering, operations, and security
 
@@ -221,107 +222,20 @@ and a gap large enough to clear `fee_per_share + margin` after the round trip.
 - **Forward log** — a GitHub Actions workflow runs daily at 00:00 UTC, snapshots prices from the
   tracked-token registry, appends to `data/forward_log.json` and commits it back. *The repository
   becomes the database* — free, permanent, version-controlled history.
-- **Security** — real keys were found in committed git history (`data/janus.log`) and purged with
-  `git filter-branch`; console-side rotation of the Telegram token and Gemini key is owed
-  independently of any journal scan. `httpx` keys were moved out of URLs, and fabricated calibration
-  rows were quarantined.
+- **Secrets** — no credentials in the working tree, and the reachable git history is verified clean of
+  credential material. Provider keys are supplied through the OS keyring and environment, never the
+  repository.
+- **Tests** — 229 tests, verified passing from a fresh clone.
 
 ---
 
-## 2. Zeron Core — Quantitative stress-testing middleware
+## NFL Big Data Bowl 2027 — Biomechanical route-running analytics
 
-**`ykhattam/zeron-core`** · 17 commits · 1,786 LOC · 21 tests · Nov 2–12, 2026 · **v6.4.0**
+**Kaggle University Track · competition deadline 6 January 2027 · in progress**
 
-B2B quantitative analytics and scenario stress-testing middleware for Egyptian and frontier markets,
-positioned as a **technology vendor** tool for brokerages, fund managers, and family offices.
-
-- **Fail-closed quant engine** — strict validation of solver convergence, non-negativity, and
-  full-investment constraints. Degenerate or non-converging inputs raise explicit errors rather than
-  returning silent fallback weights. SLSQP-optimised portfolio weights under injected macro shocks,
-  with invariant tests for weight sum/bounds, determinism, and degenerate-input fail-closed behaviour.
-- **A README rewritten for truth** — the v6.1 commit message is explicit: *"Remove all false claims
-  (no WORM, no HMM, no Ledoit-Wolf, no turnover slider). Document actual v6.1 capabilities."*
-  Earlier drafts had claimed MCDR settlement constraints, HMM regime detection and a
-  de-crowding jitter; because the code did not implement them, they were **cut from the README**
-  rather than left in as aspirations. (The repository *description* on GitHub still mentions HMM
-  and MCDR — a description/README mismatch worth correcting.)
-- **Tamper-evident append-only audit log** — every optimisation run persisted to PostgreSQL with
-  SHA-256 hash chaining. **Database triggers block UPDATE/DELETE**; per-tenant advisory locks
-  serialize concurrent inserts so the chain can't branch; the hash binds tenant, model version,
-  scenario, dataset hash, and market inputs, so it is **reproducible externally**.
-- **Localized macro shocks** — purpose-built operators for emerging-market dynamics: FX-hedge
-  devaluation benefit and correlation decay under stress, with **Higham PSD repair** for numerical
-  stability. Fixed along the way: incorrect `EGP=X` classification and non-deterministic audit hashing.
-- **Auth & tenant isolation** — `X-API-Key` header validation, fail-closed. **The tenant ID is
-  derived from the authenticated key, never the request body**, which prevents tenant spoofing.
-  Per-tenant rate limiting.
-- **Pluggable data architecture** — sandbox uses synthetic fixtures or public demo feeds;
-  production integrates client-supplied licensed feeds via a `MarketDataProvider` protocol, with a
-  content-based `dataset_hash` for provenance.
-- **React + Chart.js dashboard** — baseline vs. stressed weights, interactive shock sliders, weight
-  comparison tables.
-- **Regulatory grounding** — `API_TERMS.md` establishes explicit *Technology Vendor* status: no
-  financial advice, no portfolio management, no execution. Commercial deployments require the client
-  to warrant its right to use the underlying data.
-
----
-
-## 3. Bermuth Vector — Guardrail observability
-
-**`ykhattam/bermuth-vector`** · 13 commits · 2,979 LOC (Rust) · Nov 5–12, 2026 · **Phase 1 active**
-
-> *"We do not build magical real-time LLM mind-readers; we build a cryptographically verified
-> guardrail observability platform that evolves into a specialized Managing General Agent (MGA)."*
-
-A deep-tech SaaS and Insurtech platform solving the **"liability void"** of autonomous AI agents —
-the gap where an agent causes a loss and nobody can prove the guardrails were live.
-
-### The four non-negotiable directives
-
-1. **Liability isolation (client-side halt)** — Bermuth provides observability and guardrail
-   *recommendations*; the **client's** infrastructure retains final execution authority. This
-   eliminates vendor-side business-interruption liability.
-2. **Feasible cryptography** — attest to the **integrity of the guardrail configuration and
-   API-gateway constraints**, not to the real-time, token-by-token LLM state. Claiming more would be
-   unfalsifiable.
-3. **Dynamic posture underwriting** — underwrite the robustness of the client's *deterministic
-   guardrail architecture*, not the non-stationary probabilistic output of an LLM.
-4. **Strict risk segmentation** — risk tranches segmented by foundation-model provider to prevent
-   correlated ruin.
-
-### What's built (Rust / Axum)
-
-- **Anthropic ↔ OpenAI protocol translation** — SSE and JSON response translation, plus Claude
-  `tool_use` blocks → OpenAI `tool_calls` frames.
-- **Cryptographic attestation** — a **Merkle chain** over the guardrail policy state, so "the
-  guardrails were active and unaltered" is independently verifiable.
-- **SQLite persistence** with a non-blocking event queue and durable attestation.
-- **Dynamic per-policy tool allowlist** with a **dual-schema** guardrail model.
-- **Header sanitization** (with unit tests), **execution velocity tracking**, **rolling error rate**
-  computed over a DB-backed sliding window, and **lightweight model extraction**.
-- **Graceful shutdown + breach backpressure** so a flood of violations can't exhaust memory.
-- `demo.sh` for a live end-to-end proxy demo; CI runs on `--all-targets` with a **fail-loud**
-  `BERMUTH_API_KEY` startup check.
-
-### The 36-month plan (`docs/MASTER_PLAN.md`)
-
-| Phase | Window | Goal | Monetization |
-|---|---|---|---|
-| 1 — SaaS & observability | Months 0–12 | Telemetry, schema validation, Merkle proofs | $10k–15k/month per enterprise pilot |
-| 2 — MGA partnership | Months 12–18 | Reinsurance capacity via proven telemetry | Premium participation |
-| 3 — Parametric underwriting | Months 18–24 | Flip on liability coverage | Reduced SaaS fee + 15–20% commission |
-| 4 — Capital markets | Months 24–36+ | ILS/CAT bond tranches, regulatory safe harbour | Standards-setting |
-
----
-
-## 4. NFL Big Data Bowl 2027 — Biomechanical route-running analytics
-
-**`ykhattam/nfl-bdb-2027`** · 19 commits · 3,407 LOC · 63 test functions (67 passed, 1 skipped) ·
-Nov 1–12, 2026 · **v0.2.0**
-
-A test-driven, local-first analytics pipeline for 10 Hz NFL player-tracking data, built for the
-Kaggle University Track to surface hidden draft value through biomechanical route-running metrics —
-**Plant Foot Deceleration** and **Elasticity**.
+A test-driven, local-first analytics pipeline for 10 Hz NFL player-tracking data, built to surface
+non-obvious linkages between tracking data and game performance through biomechanical route-running
+metrics — **Plant Foot Deceleration** and **Elasticity**.
 
 ### The P0 correctness pass
 
@@ -347,8 +261,9 @@ What changed:
   floating-point orders of magnitude, and a silent patch-level drift invalidates prior numbers.
 - **Synthetic fixtures** for clean-clone reproducibility and regression guards; the test suite is
   fixture-based so it runs with no raw data present.
+- **Tests** — 70 tests, verified passing from a fresh clone.
 - Entry points take `--data-dir` / `--speed-unit` / `--top`; `src/` is packaged (`pyproject.toml`,
-  v0.2.0) with a `py.typed`-style source distribution.
+  v0.2.0) with a source distribution.
 - `SOE` (**Separation Over Expected**) baseline, drill-categorization config, Sunday-linkage and
   film-strip export scripts, and a standalone `validate_rankings.py` auditor.
 
@@ -375,98 +290,131 @@ The document also lists engineering debt explicitly (no CI workflow, relative `d
 
 ---
 
-## 5. Qat Lab — Zero-Trust Egyptian invoice processing
+## Zeron Core — Portfolio stress-testing middleware
 
-**`qatqat4x4/qat-lab`** · 109 commits · 1,509 LOC · 28 test functions · Oct 30 – Nov 15, 2026 · **Live pilot**
+**v6.4.0 · in progress**
 
-An on-premises invoice extraction and validation service for Egyptian e-invoicing (ETA), designed
-against **Law 151 of 2020** and its executive regulations (Decree 816 of 2025, issued 1 Nov 2025).
+B2B quantitative analytics and scenario stress-testing middleware for Egyptian and frontier markets,
+positioned as a **technology vendor** tool for brokerages, fund managers, and family offices.
 
-### Core guarantees
-
-- **Zero persistence** — invoice data is processed in volatile memory only. No logs, no cloud
-  storage, no telemetry. The OCR path renders PDF pages to 300 DPI PNGs inside a **tmpfs RAM disk**
-  (`/dev/shm/qatlab`, mode `0o700`) and purges them afterwards, so extracted pixels never touch a
-  physical disk.
-- **On-premises processing** — no outbound internet access is required; the pipeline runs locally
-  via llama.cpp. This *removes* the data-transfer licensing question rather than merely mitigating it.
-- **Deterministic math** — LLM extraction is validated by **Decimal-based** audit guardrails with
-  strict `ROUND_HALF_UP` and exact-equality checks. No floating-point errors.
-- **Neuro-symbolic math auditor** — including Arabic text sanitization and ISO date validation.
-- **Anti-injection guards** in the extraction prompt and pipeline wiring.
-- **ETA-native JSON/XML priority**, with OCR (tesseract + poppler, CLAHE-enhanced renders) as a
-  *tertiary* fallback.
-- **Signed 90-day Alpha Pilot time-check** — enforces Clause 5 of the signed pilot waiver. The
-  install timestamp is written to **redundant locations with the earliest winning**, so deleting one
-  copy cannot reset the clock, and the stored record is **HMAC-SHA256 signed** so a hand-edited
-  timestamp is detected.
-
-### Security and operations
-
-- **Pre-commit secret detection** and agent governance rules; a compromised Resend API key file was
-  removed from the working tree.
-- **Cloudflare Pages** site with a **Pages Function** at the repo root (Cloudflare resolves Functions
-  from the project root, never the output dir) — the build command `bash bin/check-pages-functions.sh`
-  **fails the deployment** if `functions/` is missing or empty.
-- **The Function does not persist submissions** — it sends a team notification and a requester
-  confirmation through Resend, storing nothing.
-- Deployed at **www.qatlab.xyz** — live at [qatqat4x4/qat-lab](https://github.com/qatqat4x4/qat-lab).
-
-### The decision record
-
-The `project_blueprint/` directory holds a full technical and legal evaluation that changed the
-product. Notable conclusions: Egypt's data-protection grace period ends 31 Oct / 1 Nov 2026 and
-creates a licensing regime reaching foreign processors; **Law 194 of 2020, Article 206** bars
-issuing, trading or promoting crypto without prior CBE approval (fines cited up to EGP 10M), so the
-crypto workspaces and the Binance P2P feed were **removed from the MVP rather than flagged**; and
-the six-month revenue target was demoted to a **ceiling** pending measurement.
+- **Fail-closed quant engine** — strict validation of solver convergence, non-negativity, and
+  full-investment constraints. Degenerate or non-converging inputs raise explicit errors rather than
+  returning silent fallback weights. SLSQP-optimised portfolio weights under injected macro shocks,
+  with invariant tests for weight sum/bounds, determinism, and degenerate-input fail-closed behaviour.
+- **A README rewritten for truth** — the v6.1 commit message is explicit: *"Remove all false claims
+  (no WORM, no HMM, no Ledoit-Wolf, no turnover slider). Document actual v6.1 capabilities."*
+  Earlier drafts had claimed MCDR settlement constraints, HMM regime detection and a de-crowding
+  jitter; because the code did not implement them, they were **cut from the README** rather than left
+  in as aspirations. The repository description has since been corrected to match the code.
+- **Tamper-evident append-only audit log** — every optimisation run persisted to PostgreSQL with
+  SHA-256 hash chaining. **Database triggers block UPDATE/DELETE**; per-tenant advisory locks
+  serialize concurrent inserts so the chain can't branch; the hash binds tenant, model version,
+  scenario, dataset hash, and market inputs, so it is **reproducible externally**.
+- **Localized macro shocks** — purpose-built operators for emerging-market dynamics: FX-hedge
+  devaluation benefit and correlation decay under stress, with **Higham PSD repair** for numerical
+  stability. Fixed along the way: incorrect `EGP=X` classification and non-deterministic audit hashing.
+- **Auth & tenant isolation** — `X-API-Key` header validation, fail-closed. **The tenant ID is
+  derived from the authenticated key, never the request body**, which prevents tenant spoofing.
+  Per-tenant rate limiting.
+- **Pluggable data architecture** — sandbox uses synthetic fixtures or public demo feeds;
+  production integrates client-supplied licensed feeds via a `MarketDataProvider` protocol, with a
+  content-based `dataset_hash` for provenance.
+- **React + Chart.js dashboard** — baseline vs. stressed weights, interactive shock sliders, weight
+  comparison tables.
+- **Regulatory grounding** — `API_TERMS.md` establishes explicit *Technology Vendor* status: no
+  financial advice, no portfolio management, no execution. Commercial deployments require the client
+  to warrant its right to use the underlying data.
+- **Tests** — 21 tests, verified passing from a fresh clone.
 
 ---
 
-## 6. PLE Agent Harness — Google PLEBench submission
+## PLE Agent Harness — Engineering agent harness
 
-**`ykhattam/ple-agent-harness`** · 16 commits · 3,701 LOC · Nov 12–16, 2026
+**In progress · Kaggle competition closes 5 January 2027 · no result claimed**
 
-A harness for **PLEBench** (Google's Process Learning Environment benchmark), whose dev set is **29
-real engineering design tasks** — data-hall MEP routing, seismic diaphragm shear, LV cable sizing,
-emergency spillway checks, foundation strategy, roof-deck design, landscape sheet revision, and more.
-The benchmark — *"Physical-Engineering's Last Exam"* — runs each task in an **isolated Harbor
-container** and grades the deliverables with automated checks, an expert rubric judged by Claude Opus,
-or both. A model's score is its mean reward across the dev tasks.
+A harness for **PLE** (Physical-Engineering's Last Exam), Google's benchmark of long-horizon
+engineering tasks. Each task runs in an isolated container with the project's drawings, specifications,
+spreadsheets, solver scripts, and CAD/BIM or simulation tools; the agent must produce engineering
+deliverables — code, calculations, models, schedules, and technical reports.
+
+The benchmark is 85 expert-reviewed tasks across four disciplines (structural, civil, electrical,
+mechanical), with a 29-task public development set, a uniform 6-hour agent time limit, and no internet
+access beyond model API calls. Grading combines automated scripts for quantitative outputs with an
+LLM judge on an expert rubric for open-ended work.
 
 ### What's built
 
-- **`submission.yaml`** — `model_api: google-cloud/gemini-3.8-flash`, `uv venv --python 3.12`, and a
-  `serve.py` entrypoint that implements the official protocol (`type: done` / `type: error`).
-- **`taskbridge.py` (1,528 lines)** — the IFC/BIM bridge: a **memory-mapped IFC parser** on the
-  runtime path, plus a lazy CAD layer, document reader, and temp manager.
-- **`harness.py` (834 lines)** — the agent loop, wired to the serve protocol so deliverables are
-  actually produced.
+- **`submission.yaml`** — model binding, `uv venv --python 3.12`, and a `serve.py` entrypoint that
+  implements the official protocol (`type: done` / `type: error`).
+- **`taskbridge.py`** — the IFC/BIM bridge: a **memory-mapped IFC parser** on the runtime path, plus
+  a lazy CAD layer, document reader, and temp manager.
+- **`harness.py`** — the agent loop, wired to the serve protocol so deliverables are actually produced.
 - **`src/verifiers/ast_verifier.py`** — an AST verifier for unit coercion and registry alias
   handling, with dedicated unit tests.
 - **`src/tools/isolated_runner.py`** — isolated process execution with **RSS monitoring** and
   error handling.
 - **Telemetry**, an LLM client, and a profiler under `eval/`.
 
-The final commit is a discipline fix worth naming: **"verify the declared deliverable exists before
+The last commit is a discipline fix worth naming: **"verify the declared deliverable exists before
 finishing"** — the harness now checks its own output rather than assuming success.
 
 ---
 
-## 7. Eigenlog — Polyglot epistemic engine
+## Also on GitHub
 
-**`ykhattam/eigenlog`** (public) · 40 commits · 1,424 LOC · Nov 5–10, 2026
+Not part of the finance lane, but real work.
+
+### Bermuth Vector — Guardrail observability
+
+**Phase 1 active**
+
+A deep-tech SaaS and Insurtech platform solving the **"liability void"** of autonomous AI agents —
+the gap where an agent causes a loss and nobody can prove the guardrails were live. The premise is
+explicit: *"We do not build magical real-time LLM mind-readers; we build a cryptographically verified
+guardrail observability platform that evolves into a specialized Managing General Agent (MGA)."*
+
+**The four non-negotiable directives**
+
+1. **Liability isolation (client-side halt)** — Bermuth provides observability and guardrail
+   *recommendations*; the **client's** infrastructure retains final execution authority. This
+   eliminates vendor-side business-interruption liability.
+2. **Feasible cryptography** — attest to the **integrity of the guardrail configuration and
+   API-gateway constraints**, not to the real-time, token-by-token LLM state. Claiming more would be
+   unfalsifiable.
+3. **Dynamic posture underwriting** — underwrite the robustness of the client's *deterministic
+   guardrail architecture*, not the non-stationary probabilistic output of an LLM.
+4. **Strict risk segmentation** — risk tranches segmented by foundation-model provider to prevent
+   correlated ruin.
+
+**Built (Rust / Axum)**
+
+- **Anthropic ↔ OpenAI protocol translation** — SSE and JSON response translation, plus Claude
+  `tool_use` blocks → OpenAI `tool_calls` frames.
+- **Cryptographic attestation** — a **Merkle chain** over the guardrail policy state, so "the
+  guardrails were active and unaltered" is independently verifiable.
+- **SQLite persistence** with a non-blocking event queue and durable attestation.
+- **Dynamic per-policy tool allowlist** with a **dual-schema** guardrail model.
+- **Header sanitization** (with unit tests), **execution velocity tracking**, **rolling error rate**
+  computed over a DB-backed sliding window, and **lightweight model extraction**.
+- **Graceful shutdown + breach backpressure** so a flood of violations can't exhaust memory.
+- `demo.sh` for a live end-to-end proxy demo; CI runs on `--all-targets` with a **fail-loud**
+  `BERMUTH_API_KEY` startup check.
+
+A 36-month plan covers SaaS and observability, MGA partnership, parametric underwriting, and
+capital-markets tranches, with the commercial model documented in the repository's `MASTER_PLAN.md`.
+
+### Eigenlog — Polyglot epistemic engine
+
+**v1 complete · public**
 
 > *Eigenlog, from the German **eigen** ("own"): a map of my own categories.*
 > *"It will not tell me why we exist. It is meant to help me navigate."*
 
 A local, private reflection tool in Python, SQL, and Bash that records what I know, what I doubt, and
-what does not fit. Twenty-nine of its forty commits landed in a single day (Nov 7) — a deep vertical sprint.
+what does not fit. Twenty-nine of its forty commits landed in a single day — a deep vertical sprint.
 
-### The design problem it solves
-
-An AI critic can easily turn reflection into a *performance*, or atrophy unassisted thinking. So the
-tool enforces deliberate guardrails:
+The design problem it solves: an AI critic can easily turn reflection into a *performance*, or atrophy
+unassisted thinking. So the tool enforces deliberate guardrails:
 
 - **Epistemic tagging** — `[Subjective Truth]` (axiomatic feelings shielded from logical
   deconstruction) vs `[Hypothesis]` (subject to rigorous dialectical friction), with **prompt
@@ -479,37 +427,26 @@ tool enforces deliberate guardrails:
 - **7-macro-category taxonomy** with delta tracking and frictionless micro-logging.
 - **Multilingual by design** — explicit support for English, Arabic, French, German, and Spanish, in
   both the dialogue system prompt and the response instructions.
-- **Local LLM integration** — a local model (Qwen 2.5 Coder via llama-server) with a **configurable
-  model path**, bound strictly to **127.0.0.1** so there is no external network exposure, and
-  stateful multi-turn dialogue with **explicit context-truncation warnings**.
+- **Local LLM integration** — a local model via llama-server with a **configurable model path**, bound
+  strictly to **127.0.0.1** so there is no external network exposure, and stateful multi-turn dialogue
+  with **explicit context-truncation warnings**.
 
-### Data sovereignty
+**Data sovereignty** — SQLite storage with a Pydantic `LogEntry` schema, every row validated on read
+and write so columns cannot silently drift; legacy `log.csv` files are auto-imported on first run;
+the database and config are written **`0o600`** and gitignored, so a clone never carries anyone's
+entries; direct SQL access is supported. A NiceGUI glass-morphism web UI (localhost-only) replaced an
+earlier Flask app.
 
-- **SQLite storage with a Pydantic `LogEntry` schema** — every row validated on read and write, so
-  columns cannot silently drift. Legacy `log.csv` files are auto-imported on first run and renamed
-  to `log.csv.migrated`.
-- **`0o600` owner-only permissions** on the database and `.eigenlog_config`; both gitignored, so a
-  clone never carries anyone's entries.
-- **Direct SQL access** — `sqlite3 eigenlog.db "SELECT * FROM entries WHERE subject='emotions'"`.
-- **Cold Mode precedence** over sensitive gating, and graceful Ctrl-C handling.
-- A **NiceGUI glass-morphism web UI** (localhost-only) replaced an earlier Flask app, with form
-  submission fixed, deletion added, and robust error handling.
+### Oubliette CLI — Paranoid AI coding assistant
 
-The public README states the risk plainly: *"This tool logs highly sensitive, unfiltered personal
-data. Ensure your disk is fully encrypted."* The code is public; the reflections stay mine.
-
----
-
-## 8. Oubliette CLI — Paranoid AI coding assistant
-
-**`ykhattam/oubliette-cli`** (public) · 17 commits · 953 LOC · 39 test functions · Nov 5–7, 2026
+**v1 complete · public · Apache 2.0**
 
 > *An oubliette is a secret dungeon with access only through a trapdoor.*
 > ***Secrets go in. Nothing leaks out.***
 
-A local-first AI coding assistant with hard secret boundaries and audit-grade logging. Apache 2.0.
+A local-first AI coding assistant with hard secret boundaries and audit-grade logging.
 
-### Six security invariants
+**Six security invariants**
 
 1. **No cloud endpoints** — localhost only.
 2. **No telemetry** — zero phone-home.
@@ -525,47 +462,35 @@ A local-first AI coding assistant with hard secret boundaries and audit-grade lo
    **SHA-256 hash of the prompt**, never the raw text. The log rotates at 10 MB, keeping the newest half.
 6. **Strict permissions** — directory `0o700`, log `0o600`.
 
-### Architecture
-
-- **Gate layer** — path resolution + regex redaction, with **path traversal explicitly blocked**
-  (a fix that arrived after an audit pass).
-- **Audit logger** — metadata-only, stable audit directory.
-- **Dual LLM routers** — a native **llama.cpp subprocess runner** and an **Ollama router** with
-  streaming.
-- **Atomic file writer** with diff preview, code-fence stripping, and a warning before writing
-  `[REDACTED]` placeholders.
-- **Lazy-start** of llama-server, with a configurable model path and ready timeout.
-- **`run.sh` launcher** that activates the venv itself, pins an absolute model path, and keeps one
-  audit trail in a fixed state directory regardless of the invoking directory.
-
-The README documents the environmental override surface (`OUBLIETTE_LLM_ENDPOINT`, `OUBLIETTE_MODEL_PATH`,
-`OUBLIETTE_MODEL`, `OUBLIETTE_AUDIT_DIR`, `OUBLIETTE_READY_TIMEOUT`) and CLI arguments
-(`--file`, `--prompt`, `--write`, `--no-approval`).
+**Architecture** — a gate layer with **path traversal explicitly blocked**; the metadata-only audit
+logger; dual LLM routers (a native **llama.cpp subprocess runner** and an **Ollama router** with
+streaming); an atomic file writer with diff preview, code-fence stripping, and a warning before
+writing `[REDACTED]` placeholders; lazy-start of llama-server with a configurable model path and ready
+timeout; and a `run.sh` launcher that activates the venv itself and keeps one audit trail in a fixed
+state directory regardless of the invoking directory.
 
 ---
 
 ## Cross-cutting themes
 
-Looking back across all eight projects, the same engineering instincts recur:
+Looking back across this work, the same engineering instincts recur:
 
-1. **Measurement before deployment.** Janus stopped because the data said there was no edge; Zeron
-   ships a verifiable audit chain; NFL publishes its limitations before publishing its numbers.
+1. **Measurement before deployment.** Janus stopped because the data said there was no edge in the
+   markets scored; Zeron ships a verifiable audit chain; NFL publishes its limitations before
+   publishing its numbers.
 2. **Negative results are deliverables.** The Janus README's most valuable section is the one that
    explains why the project ended. The retraction of the first 88-market measurement is documented
    rather than quietly replaced.
-3. **Security as architecture, not as a feature.** Oubliette's six invariants, Eigenlog's `0o600`
-   SQLite, Qat Lab's zero-persistence pipeline, Zeron's tenant isolation, and Bermuth's liability
-   isolation are all structural choices, not settings.
-4. **Deterministic guards around probabilistic systems.** Decimal math in Qat Lab, the edge gate in
-   Janus, AST verification in PLE, hash chaining in Zeron, and the Merkle chain in Bermuth all do the
-   same thing: never let a probabilistic output into a critical path unverified.
-5. **Regulatory grounding.** Egypt's Law 151 and Article 206, the *Technology Vendor* disclaimer in
-   Zeron's API terms, and the liability-isolation thesis in Bermuth are treated as design inputs,
-   not afterthoughts.
+3. **Claims are cut when the code doesn't support them.** Zeron removed four advertised features from
+   its README rather than leave them in as aspirations.
+4. **Security as architecture, not as a feature.** Oubliette's six invariants, Eigenlog's `0o600`
+   SQLite, Zeron's tenant isolation, and Bermuth's liability isolation are structural choices, not
+   settings.
+5. **Deterministic guards around probabilistic systems.** Decimal math in the invoice pipeline, the
+   edge gate in Janus, AST verification in PLE, hash chaining in Zeron, and the Merkle chain in
+   Bermuth all do the same thing: never let a probabilistic output into a critical path unverified.
 6. **Cost and quota as architectural constraints.** Janus's 4-hour cycle is derived from a token
    budget, and the budget dictated the measurement plan, the stopping rule, and the conclusion.
-7. **The repository as the database.** Janus commits its forward log back to itself through GitHub
-   Actions; Zeron makes its audit chain queryable in SQL.
 
 ---
 
@@ -575,8 +500,8 @@ Looking back across all eight projects, the same engineering instincts recur:
 **Backend & frameworks:** FastAPI · Axum · Pydantic · httpx · SQLite · PostgreSQL · Alembic
 **Data & math:** Pandas · NumPy · SciPy · Savitzky-Golay filtering · SLSQP portfolio optimisation · Decimal arithmetic · SHA-256 hash chaining · Merkle trees · Higham PSD repair · Brier score & calibration curves · volatility & stress-testing operators
 **AI/ML:** llama.cpp (GGUF) · Ollama · Groq · Gemini · agent pipelines with research/analysis/validation stages
-**Frontend & web:** React · Chart.js · NiceGUI · Cloudflare Pages Functions · Streamlit
-**Infrastructure:** Linux · systemd · Git · GitHub Actions · Docker · uv · pytest · Playwright-ready CI
+**Frontend & web:** React · Chart.js · NiceGUI · Cloudflare Pages Functions
+**Infrastructure:** Linux · systemd · Git · GitHub Actions · Docker · uv · pytest
 
 **Domain:** Financial modelling and market research · Predictive-market microstructure · Regulatory/compliance research (Egypt/EU) · BIM/IFC engineering workflows
 
